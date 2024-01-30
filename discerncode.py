@@ -4,17 +4,13 @@ import numpy as np
 def get_shape_contour(approx, vertices):
     num_vertices = len(approx)
 
-    if num_vertices == 3:
-        return "Triangle"
-    elif num_vertices == 4:
+    
+    if num_vertices == 4:
         (x, y, w, h) = cv2.boundingRect(approx)
         ar = w / float(h)
-        return "Square" if 0.95 <= ar <= 1.05 else "Rectangle"
-    elif num_vertices == 5:
-        return "Pentagon"
-    elif 6 <= num_vertices <= 8:
-        return "Hexagon"
-    elif num_vertices > 8:
+        return "Square" if 0.9 <= ar <= 1.1 else "Rectangle"
+    
+    elif num_vertices > 7:
         return "Circle"
     else:
         return "Unknown"
