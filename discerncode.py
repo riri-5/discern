@@ -58,12 +58,13 @@ def main():
             approx = cv2.approxPolyDP(cnt, epsilon, True)
 
             shape = get_shape_contour(approx)
+            size = cv2.contourArea(cnt)
+
 
             (x, y, w, h) = cv2.boundingRect(cnt)
             cv2.drawContours(frame, [approx], 0, (0, 255, 0), 2)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-            cv2.putText(frame, f"Shape: {shape}", (x, y - 10),
+            cv2.putText(frame, f"{shape} - Size: {size:.2f}", (x, y - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
         # color detection code
