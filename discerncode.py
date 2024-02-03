@@ -1,6 +1,16 @@
 import numpy as np
 import cv2
 
+# Constants for object size and distance estimation
+KNOWN_WIDTH = 8.5  # width of the object in centimeters (adjust according to your object)
+FOCAL_LENGTH = 800  # focal length of your camera (adjust according to your camera)
+
+def calculate_distance(size):
+    # Formula to calculate distance: distance = (known_width * focal_length) / apparent_width
+    return (KNOWN_WIDTH * FOCAL_LENGTH) / size
+
+
+#shape detection code
 def get_shape_contour(approx):
     num_vertices = len(approx)
 
@@ -64,8 +74,14 @@ def main():
             (x, y, w, h) = cv2.boundingRect(cnt)
             cv2.drawContours(frame, [approx], 0, (0, 255, 0), 2)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            cv2.putText(frame, f"{shape} - Size: {size:.2f}", (x, y - 10),
+
+
+            # Calculate and display distance
+            distance = calculate_distance(w)
+            cv2.putText(frame, f"{shape} - Size: {size:.2f} - Distance: {distance:.2f} cm", (x, y - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
+
 
         # color detection code
         contours, hierarchy = cv2.findContours(red_mask,
